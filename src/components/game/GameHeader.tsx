@@ -1,8 +1,32 @@
 import { useGame } from '@/contexts/GameContext';
-import { Timer, Zap, Hash, Shield, Skull, Eye } from 'lucide-react';
+import { useLocale } from '@/i18n/LocaleContext';
+import { Timer, Zap, Hash, Shield, Skull, Eye, Globe } from 'lucide-react';
+
+const LangToggle = () => {
+  const { locale, setLocale } = useLocale();
+  return (
+    <div className="flex items-center gap-1">
+      <Globe className="w-3 h-3 text-muted-foreground" />
+      {(['uk', 'en'] as const).map(l => (
+        <button
+          key={l}
+          onClick={() => setLocale(l)}
+          className={`text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border transition-colors ${
+            locale === l
+              ? 'border-primary text-foreground bg-primary/10'
+              : 'border-border text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {l.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+};
 
 const GameHeader = () => {
   const { state } = useGame();
+  const { t } = useLocale();
   if (!state) return null;
 
   if (state.role === 'purple') {
@@ -16,11 +40,11 @@ const GameHeader = () => {
         </div>
         <div className="flex items-center gap-6 text-xs font-mono">
           <div className="flex items-center gap-1.5">
-            <span className="text-muted-foreground">Крок:</span>
+            <span className="text-muted-foreground">{t('header.step')}:</span>
             <span className="text-foreground">{state.purpleCurrentStep + 1}/{totalSteps}</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="text-muted-foreground">Проаналізовано:</span>
+            <span className="text-muted-foreground">{t('header.analyzed')}:</span>
             <span className="text-cyber-purple">{annotatedCount}/{totalSteps}</span>
           </div>
           <div className="h-1 w-24 bg-muted rounded overflow-hidden">
@@ -29,6 +53,7 @@ const GameHeader = () => {
               style={{ width: totalSteps > 0 ? `${(annotatedCount / totalSteps) * 100}%` : '0%' }}
             />
           </div>
+          <LangToggle />
         </div>
       </header>
     );
@@ -49,15 +74,15 @@ const GameHeader = () => {
         </span>
       </div>
 
-      <div className="flex items-center gap-6 text-xs font-mono">
+      <div className="flex items-center gap-5 text-xs font-mono">
         <div className="flex items-center gap-1.5">
           <Hash className="w-3.5 h-3.5 text-muted-foreground" />
-          <span className="text-muted-foreground">Хід:</span>
+          <span className="text-muted-foreground">{t('header.turn')}:</span>
           <span className="text-foreground">{state.turn}/{state.maxTurns}</span>
         </div>
         <div className="flex items-center gap-1.5">
           <Zap className="w-3.5 h-3.5 text-cyber-yellow" />
-          <span className="text-muted-foreground">Очки:</span>
+          <span className="text-muted-foreground">{t('header.score')}:</span>
           <span className="text-cyber-yellow">{state.score}</span>
         </div>
         <div className={`flex items-center gap-1.5 ${state.timeRemaining < 60 ? 'text-cyber-red animate-pulse-glow' : ''}`}>
@@ -65,7 +90,7 @@ const GameHeader = () => {
           <span>{String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="text-muted-foreground">Рівень:</span>
+          <span className="text-muted-foreground">{t('header.level')}:</span>
           <span className={`${
             state.accessLevel === 'admin' ? 'text-cyber-red' :
             state.accessLevel === 'teacher' ? 'text-cyber-yellow' :
@@ -74,6 +99,7 @@ const GameHeader = () => {
             {state.accessLevel === 'none' ? '—' : state.accessLevel}
           </span>
         </div>
+        <LangToggle />
       </div>
     </header>
   );
