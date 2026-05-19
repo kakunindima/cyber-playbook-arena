@@ -1,0 +1,16 @@
+retry:
+  maxAttempts: 3
+  backoff:
+    strategy: exponential
+    initialDelayMs: 1000
+    multiplier: 2
+    maxDelayMs: 30000
+
+conditions:
+  - lint-failure
+  - test-failure
+  - typecheck-failure
+
+escalation:
+  afterMaxAttempts: halt
+  notify: review-agent

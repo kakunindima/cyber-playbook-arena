@@ -1,0 +1,36 @@
+name: feature-development
+
+description: Full feature implementation workflow
+
+steps:
+  - id: planner
+    required: true
+
+  - id: scaffolder
+    required: true
+
+  - id: domain-agent
+    required: true
+
+  - id: state-agent
+    required: true
+
+  - id: ui-agent
+    required: true
+
+  - id: testing-agent
+    required: true
+
+  - id: review-agent
+    required: true
+
+  - id: docs-agent
+    required: true
+
+retryPolicy:
+  attempts: 3
+
+approval:
+  requiredFor:
+    - dependency-installation
+    - architecture-migration

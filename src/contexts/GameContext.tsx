@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
-import { GameState, TeamRole, createInitialGameState, PhishingEmail } from '@/types/game';
+import { GameState, TeamRole, createInitialGameState, PhishingEmail, PurpleAnnotation } from '@/types/game';
 import {
   redScanPorts, redSendPhishing, redSocialEngineering, redBruteforce,
   redSqlInjection, redAccessFile,
   blueEnableFirewall, blueEnforce2FA, blueChangePasswords, blueClosePort,
   blueIsolateAccount, blueAnalyzeLogs, simulateRedTeamAttack,
+  buildPurpleTimeline,
 } from '@/lib/gameEngine';
 
 interface GameContextValue {
@@ -25,6 +26,9 @@ interface GameContextValue {
   closePort: (port: number) => void;
   isolateAccount: (npcId: string) => void;
   analyzeLogs: () => void;
+  // Purple actions
+  setCurrentStep: (step: number) => void;
+  annotateStep: (step: number, annotation: PurpleAnnotation) => void;
 }
 
 const GameContext = createContext<GameContextValue | null>(null);
@@ -34,7 +38,11 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startGame = useCallback((role: TeamRole) => {
-    setState(createInitialGameState(role));
+    const initial = createInitialGameState(role);
+    if (role === 'purple') {
+      initial.purpleTimeline = buildPurpleTimeline();
+    }
+    setState(initial);
   }, []);
 
   const resetGame = useCallback(() => {
@@ -42,9 +50,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     setState(null);
   }, []);
 
-  // Timer
+  // Timer — disabled for purple team (review mode has no time pressure)
   useEffect(() => {
-    if (state && !state.isGameOver && state.timeRemaining > 0) {
+    if (state && !state.isGameOver && state.timeRemaining > 0 && state.role !== 'purple') {
       timerRef.current = setInterval(() => {
         setState(prev => {
           if (!prev || prev.isGameOver) return prev;
@@ -57,7 +65,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       }, 1000);
       return () => { if (timerRef.current) clearInterval(timerRef.current); };
     }
-  }, [state?.isGameOver, state?.timeRemaining]);
+  }, [state?.isGameOver, state?.timeRemaining, state?.role]);
 
   // Blue team: simulate attacks every 2 turns
   const update = (fn: (s: GameState) => GameState) => {
@@ -70,6 +78,20 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       return next;
     });
   };
+
+  const setCurrentStep = useCallback((step: number) => {
+    setState(prev => {
+      if (!prev || prev.role !== 'purple') return prev;
+      return { ...prev, purpleCurrentStep: step };
+    });
+  }, []);
+
+  const annotateStep = useCallback((step: number, annotation: PurpleAnnotation) => {
+    setState(prev => {
+      if (!prev || prev.role !== 'purple') return prev;
+      return { ...prev, purpleAnnotations: { ...prev.purpleAnnotations, [step]: annotation } };
+    });
+  }, []);
 
   const value: GameContextValue = {
     state,
@@ -87,6 +109,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     closePort: (port) => update(s => blueClosePort(s, port)),
     isolateAccount: (npcId) => update(s => blueIsolateAccount(s, npcId)),
     analyzeLogs: () => update(blueAnalyzeLogs),
+    setCurrentStep,
+    annotateStep,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

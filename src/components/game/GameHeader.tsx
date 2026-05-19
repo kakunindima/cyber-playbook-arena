@@ -1,9 +1,38 @@
 import { useGame } from '@/contexts/GameContext';
-import { Timer, Zap, Hash, Shield, Skull } from 'lucide-react';
+import { Timer, Zap, Hash, Shield, Skull, Eye } from 'lucide-react';
 
 const GameHeader = () => {
   const { state } = useGame();
   if (!state) return null;
+
+  if (state.role === 'purple') {
+    const annotatedCount = Object.keys(state.purpleAnnotations).length;
+    const totalSteps = state.purpleTimeline.length;
+    return (
+      <header className="h-12 border-b border-border bg-card flex items-center justify-between px-4 shrink-0">
+        <div className="flex items-center gap-3">
+          <Eye className="w-5 h-5 text-cyber-purple" />
+          <span className="font-display text-sm font-bold text-cyber-purple">PURPLE TEAM</span>
+        </div>
+        <div className="flex items-center gap-6 text-xs font-mono">
+          <div className="flex items-center gap-1.5">
+            <span className="text-muted-foreground">Крок:</span>
+            <span className="text-foreground">{state.purpleCurrentStep + 1}/{totalSteps}</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="text-muted-foreground">Проаналізовано:</span>
+            <span className="text-cyber-purple">{annotatedCount}/{totalSteps}</span>
+          </div>
+          <div className="h-1 w-24 bg-muted rounded overflow-hidden">
+            <div
+              className="h-full bg-cyber-purple transition-all"
+              style={{ width: totalSteps > 0 ? `${(annotatedCount / totalSteps) * 100}%` : '0%' }}
+            />
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   const isRed = state.role === 'red';
   const mins = Math.floor(state.timeRemaining / 60);

@@ -1,4 +1,4 @@
-export type TeamRole = 'red' | 'blue';
+export type TeamRole = 'red' | 'blue' | 'purple';
 
 export interface NPC {
   id: string;
@@ -52,6 +52,21 @@ export interface PhishingEmail {
   success: boolean | null;
 }
 
+export interface PurpleTimelineEntry {
+  id: string;
+  turn: number;
+  team: 'red' | 'blue';
+  action: string;
+  result: string;
+  pointsGained: number;
+  autoInsight: string;
+}
+
+export interface PurpleAnnotation {
+  rating: 'effective' | 'neutral' | 'ineffective';
+  recommendation: string;
+}
+
 export interface GameState {
   role: TeamRole;
   turn: number;
@@ -83,6 +98,11 @@ export interface GameState {
 
   // Action log
   actionHistory: ActionRecord[];
+
+  // Purple team
+  purpleTimeline: PurpleTimelineEntry[];
+  purpleCurrentStep: number;
+  purpleAnnotations: Record<number, PurpleAnnotation>;
 }
 
 export interface ActionRecord {
@@ -145,5 +165,8 @@ export function createInitialGameState(role: TeamRole): GameState {
     globalTwoFactor: false,
     incidentsResolved: 0,
     actionHistory: [],
+    purpleTimeline: [],
+    purpleCurrentStep: 0,
+    purpleAnnotations: {},
   };
 }

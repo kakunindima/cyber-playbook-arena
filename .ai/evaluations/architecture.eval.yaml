@@ -1,0 +1,37 @@
+name: architecture-quality
+
+checks:
+  - id: no-circular-dependencies
+    tool: madge
+    command: npx madge --circular src/
+    pass: exit_code_0
+    install_if_missing: npx madge
+
+  - id: proper-folder-structure
+    description: |
+      Verify folder conventions are respected:
+      - /src/components/ui/     shadcn primitives only
+      - /src/components/game/   domain UI only
+      - /src/lib/               pure logic, no React imports
+      - /src/contexts/          React Context providers only
+      - /src/types/             TypeScript interfaces only
+      - /src/hooks/             custom hooks only
+    tool: grep
+    command: grep -rl "^import React\|from 'react'" src/lib/
+    pass: no_matches
+
+  - id: no-business-logic-in-ui
+    tool: grep
+    command: grep -rn "createInitialGameState\|applyAction\|calculateScore\|gameEngine" src/components/
+    pass: no_matches
+
+  - id: reusable-hooks
+    description: All hooks in /src/hooks/ must be used by at least one consumer
+    tool: grep
+    command: grep -rl "from '@/hooks/" src/components/ src/contexts/ src/pages/
+    pass: has_matches
+
+  - id: isolated-domain-logic
+    tool: grep
+    command: grep -rn "^import.*from.*['\"]@/components" src/lib/
+    pass: no_matches

@@ -1,0 +1,70 @@
+feature-development:
+  planner:
+    next:
+      - scaffolder
+
+  scaffolder:
+    next:
+      - domain-agent
+      - state-agent
+      - ui-agent
+
+  domain-agent:
+    next:
+      - testing-agent
+
+  state-agent:
+    next:
+      - testing-agent
+
+  ui-agent:
+    next:
+      - testing-agent
+
+  testing-agent:
+    next:
+      - review-agent
+
+  review-agent:
+    next:
+      - docs-agent
+
+  docs-agent:
+    next: []
+
+bugfix:
+  planner:
+    next:
+      - domain-agent
+
+  domain-agent:
+    next:
+      - testing-agent
+
+  testing-agent:
+    next:
+      - review-agent
+
+  review-agent:
+    next: []
+
+refactor:
+  planner:
+    next:
+      - review-agent
+
+  review-agent:
+    next:
+      - domain-agent
+      - ui-agent
+
+  domain-agent:
+    next:
+      - testing-agent
+
+  ui-agent:
+    next:
+      - testing-agent
+
+  testing-agent:
+    next: []

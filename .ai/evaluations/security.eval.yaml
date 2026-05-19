@@ -1,0 +1,22 @@
+name: security-quality
+
+checks:
+  - id: dependency-vulnerabilities
+    tool: npm audit
+    command: npm audit --audit-level=high
+    pass: exit_code_0
+
+  - id: unsafe-eval
+    tool: grep
+    command: grep -rn "eval(\|new Function(" src/
+    pass: no_matches
+
+  - id: hardcoded-secrets
+    tool: grep
+    command: grep -rni "password\s*=\s*['\"][^'\"]\|secret\s*=\s*['\"][^'\"]\|api.key\s*=\s*['\"][^'\"]" src/
+    pass: no_matches
+
+  - id: unsafe-input-usage
+    tool: grep
+    command: grep -rn "dangerouslySetInnerHTML" src/
+    pass: no_matches

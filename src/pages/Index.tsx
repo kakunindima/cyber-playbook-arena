@@ -1,21 +1,27 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGame } from '@/contexts/GameContext';
-import { Shield, Skull } from 'lucide-react';
+import { TeamRole } from '@/types/game';
+import { Shield, Skull, Eye } from 'lucide-react';
+
+const ROUTES: Record<TeamRole, string> = {
+  red: '/red-team',
+  blue: '/blue-team',
+  purple: '/purple-team',
+};
 
 const Index = () => {
-  const [hovered, setHovered] = useState<'red' | 'blue' | null>(null);
+  const [hovered, setHovered] = useState<TeamRole | null>(null);
   const { startGame } = useGame();
   const navigate = useNavigate();
 
-  const handleSelect = (role: 'red' | 'blue') => {
+  const handleSelect = (role: TeamRole) => {
     startGame(role);
-    navigate(role === 'red' ? '/red-team' : '/blue-team');
+    navigate(ROUTES[role]);
   };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background scanline relative overflow-hidden">
-      {/* Background grid effect */}
       <div className="absolute inset-0 opacity-5" style={{
         backgroundImage: 'linear-gradient(hsl(142 70% 45% / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(142 70% 45% / 0.3) 1px, transparent 1px)',
         backgroundSize: '40px 40px'
@@ -31,15 +37,15 @@ const Index = () => {
         <div className="mt-4 h-px bg-gradient-to-r from-transparent via-primary to-transparent w-64 mx-auto" />
       </div>
 
-      <div className="relative z-10 flex flex-col md:flex-row gap-8 px-4">
-        {/* Red Team Card */}
+      <div className="relative z-10 flex flex-col lg:flex-row gap-6 px-4 items-center">
+        {/* Red Team */}
         <button
           onClick={() => handleSelect('red')}
           onMouseEnter={() => setHovered('red')}
           onMouseLeave={() => setHovered(null)}
-          className={`group relative w-80 p-8 rounded border transition-all duration-300 text-left
+          className={`group relative w-72 p-8 rounded border transition-all duration-300 text-left
             ${hovered === 'red'
-              ? 'border-cyber-red border-glow-red bg-cyber-red/10 scale-105'
+              ? 'border-cyber-red bg-cyber-red/10 scale-105'
               : 'border-border bg-card hover:border-cyber-red/50'
             }`}
         >
@@ -61,19 +67,18 @@ const Index = () => {
           </div>
         </button>
 
-        {/* VS */}
         <div className="flex items-center justify-center">
-          <span className="font-display text-3xl text-muted-foreground font-bold">VS</span>
+          <span className="font-display text-2xl text-muted-foreground font-bold">VS</span>
         </div>
 
-        {/* Blue Team Card */}
+        {/* Blue Team */}
         <button
           onClick={() => handleSelect('blue')}
           onMouseEnter={() => setHovered('blue')}
           onMouseLeave={() => setHovered(null)}
-          className={`group relative w-80 p-8 rounded border transition-all duration-300 text-left
+          className={`group relative w-72 p-8 rounded border transition-all duration-300 text-left
             ${hovered === 'blue'
-              ? 'border-cyber-blue border-glow-blue bg-cyber-blue/10 scale-105'
+              ? 'border-cyber-blue bg-cyber-blue/10 scale-105'
               : 'border-border bg-card hover:border-cyber-blue/50'
             }`}
         >
@@ -92,6 +97,39 @@ const Index = () => {
           </ul>
           <div className={`absolute bottom-4 right-4 text-xs font-display transition-opacity ${hovered === 'blue' ? 'opacity-100' : 'opacity-0'}`}>
             <span className="text-cyber-blue animate-blink">[ ENTER ]</span>
+          </div>
+        </button>
+
+        <div className="flex items-center justify-center">
+          <span className="font-display text-2xl text-muted-foreground font-bold">+</span>
+        </div>
+
+        {/* Purple Team */}
+        <button
+          onClick={() => handleSelect('purple')}
+          onMouseEnter={() => setHovered('purple')}
+          onMouseLeave={() => setHovered(null)}
+          className={`group relative w-72 p-8 rounded border transition-all duration-300 text-left
+            ${hovered === 'purple'
+              ? 'border-cyber-purple bg-cyber-purple/10 scale-105'
+              : 'border-border bg-card hover:border-cyber-purple/50'
+            }`}
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <Eye className="w-8 h-8 text-cyber-purple" />
+            <h2 className="font-display text-2xl font-bold text-cyber-purple">PURPLE TEAM</h2>
+          </div>
+          <p className="text-sm text-muted-foreground mb-6">
+            🟣 Аналітик — спостерігай за операцією обох команд та оцінюй кожен крок.
+          </p>
+          <ul className="space-y-2 text-xs text-muted-foreground">
+            <li className="flex items-center gap-2"><span className="text-cyber-purple">▸</span> Огляд хронології атаки</li>
+            <li className="flex items-center gap-2"><span className="text-cyber-purple">▸</span> Аналіз ефективності дій</li>
+            <li className="flex items-center gap-2"><span className="text-cyber-purple">▸</span> Рекомендації для обох команд</li>
+            <li className="flex items-center gap-2"><span className="text-cyber-purple">▸</span> Підсумковий звіт операції</li>
+          </ul>
+          <div className={`absolute bottom-4 right-4 text-xs font-display transition-opacity ${hovered === 'purple' ? 'opacity-100' : 'opacity-0'}`}>
+            <span className="text-cyber-purple animate-blink">[ ENTER ]</span>
           </div>
         </button>
       </div>

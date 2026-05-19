@@ -1,0 +1,26 @@
+name: refactor
+description: Safe refactoring workflow — plan, review existing code, implement, verify
+
+steps:
+  - id: planner
+    required: true
+
+  - id: review-agent
+    required: true
+
+  - id: domain-agent
+    required: true
+
+  - id: ui-agent
+    required: true
+
+  - id: testing-agent
+    required: true
+
+retryPolicy:
+  attempts: 3
+
+conditions:
+  - lint-failure
+  - test-failure
+  - typecheck-failure

@@ -1,0 +1,8 @@
+name: refactor
+
+steps:
+  - planner
+  - review-agent
+  - domain-agent
+  - ui-agent
+  - testing-agent

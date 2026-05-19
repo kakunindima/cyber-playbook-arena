@@ -1,0 +1,7 @@
+name: bugfix
+
+steps:
+  - planner
+  - domain-agent
+  - testing-agent
+  - review-agent
