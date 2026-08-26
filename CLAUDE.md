@@ -34,7 +34,7 @@ Always:
 
 All agentic configuration is located in the .ai/ folder:
 - Agents:        .ai/agents/
-- Workflows:     .ai/workflow/
+- Workflows:     .ai/workflows/
 - Policies:      .ai/policies/
 - Memory:        .ai/memory/
 - Evaluations:   .ai/evaluations/

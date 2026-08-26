@@ -5,9 +5,9 @@ project:
   type: react-typescript
 
 models:
-  planner: claude-opus-4-7
+  planner: claude-sonnet-4-6
   scaffolder: claude-sonnet-4-6
-  reviewer: claude-opus-4-7
+  reviewer: claude-sonnet-4-6
   implementation: claude-sonnet-4-6
   testing: claude-sonnet-4-6
   documentation: claude-sonnet-4-6
@@ -23,7 +23,7 @@ memory:
   path: .ai/memory
 
 workflows:
-  path: .ai/workflow
+  path: .ai/workflows
 
 policies:
   path: .ai/policies

@@ -6,52 +6,53 @@
 
 @layer base {
   :root {
-    --background: 220 20% 4%;
-    --foreground: 142 70% 80%;
+    /* Ukrainian national colors: blue #0057B8, yellow #FFD700 */
+    --background: 222 35% 5%;
+    --foreground: 50 100% 82%;
 
-    --card: 220 18% 8%;
-    --card-foreground: 142 70% 80%;
+    --card: 222 30% 9%;
+    --card-foreground: 50 100% 82%;
 
-    --popover: 220 18% 8%;
-    --popover-foreground: 142 70% 80%;
+    --popover: 222 30% 9%;
+    --popover-foreground: 50 100% 82%;
 
-    --primary: 142 70% 45%;
-    --primary-foreground: 220 20% 4%;
+    --primary: 214 100% 42%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 15% 15%;
-    --secondary-foreground: 142 50% 70%;
+    --secondary: 222 25% 16%;
+    --secondary-foreground: 50 80% 72%;
 
-    --muted: 220 15% 12%;
-    --muted-foreground: 220 10% 50%;
+    --muted: 222 25% 13%;
+    --muted-foreground: 222 15% 52%;
 
-    --accent: 200 80% 50%;
-    --accent-foreground: 220 20% 4%;
+    --accent: 50 100% 50%;
+    --accent-foreground: 222 35% 5%;
 
     --destructive: 0 80% 55%;
     --destructive-foreground: 0 0% 98%;
 
     --cyber-red: 0 85% 55%;
     --cyber-red-foreground: 0 0% 98%;
-    --cyber-blue: 210 90% 55%;
-    --cyber-blue-foreground: 220 20% 4%;
-    --cyber-green: 142 70% 45%;
-    --cyber-yellow: 45 95% 55%;
+    --cyber-blue: 214 100% 42%;
+    --cyber-blue-foreground: 0 0% 100%;
+    --cyber-green: 142 60% 42%;
+    --cyber-yellow: 50 100% 50%;
     --cyber-purple: 270 70% 55%;
 
-    --border: 142 30% 18%;
-    --input: 220 15% 15%;
-    --ring: 142 70% 45%;
+    --border: 214 40% 20%;
+    --input: 222 25% 16%;
+    --ring: 214 100% 42%;
 
     --radius: 0.25rem;
 
-    --sidebar-background: 220 18% 6%;
-    --sidebar-foreground: 142 50% 70%;
-    --sidebar-primary: 142 70% 45%;
-    --sidebar-primary-foreground: 220 20% 4%;
-    --sidebar-accent: 220 15% 12%;
-    --sidebar-accent-foreground: 142 50% 70%;
-    --sidebar-border: 142 30% 15%;
-    --sidebar-ring: 142 70% 45%;
+    --sidebar-background: 222 30% 7%;
+    --sidebar-foreground: 50 80% 72%;
+    --sidebar-primary: 214 100% 42%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 25% 13%;
+    --sidebar-accent-foreground: 50 80% 72%;
+    --sidebar-border: 214 40% 17%;
+    --sidebar-ring: 214 100% 42%;
 
     --font-mono: 'JetBrains Mono', monospace;
     --font-display: 'Orbitron', sans-serif;
@@ -69,8 +70,8 @@
   }
 
   ::selection {
-    background: hsl(142 70% 45% / 0.3);
-    color: hsl(142 70% 90%);
+    background: hsl(214 100% 42% / 0.35);
+    color: hsl(50 100% 90%);
   }
 
   ::-webkit-scrollbar {
@@ -78,14 +79,14 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: hsl(220 18% 6%);
+    background: hsl(222 30% 7%);
   }
   ::-webkit-scrollbar-thumb {
-    background: hsl(142 30% 25%);
+    background: hsl(214 60% 28%);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: hsl(142 50% 35%);
+    background: hsl(214 80% 42%);
   }
 }
 
@@ -97,30 +98,36 @@
     font-family: var(--font-mono);
   }
   .text-glow-green {
-    text-shadow: 0 0 10px hsl(142 70% 45% / 0.5), 0 0 20px hsl(142 70% 45% / 0.3);
+    text-shadow: 0 0 10px hsl(142 60% 42% / 0.5), 0 0 20px hsl(142 60% 42% / 0.3);
   }
   .text-glow-red {
     text-shadow: 0 0 10px hsl(0 85% 55% / 0.5), 0 0 20px hsl(0 85% 55% / 0.3);
   }
   .text-glow-blue {
-    text-shadow: 0 0 10px hsl(210 90% 55% / 0.5), 0 0 20px hsl(210 90% 55% / 0.3);
+    text-shadow: 0 0 10px hsl(214 100% 42% / 0.6), 0 0 20px hsl(214 100% 42% / 0.35);
+  }
+  .text-glow-yellow {
+    text-shadow: 0 0 10px hsl(50 100% 50% / 0.6), 0 0 20px hsl(50 100% 50% / 0.35);
   }
   .border-glow-green {
-    box-shadow: 0 0 5px hsl(142 70% 45% / 0.3), inset 0 0 5px hsl(142 70% 45% / 0.1);
+    box-shadow: 0 0 5px hsl(142 60% 42% / 0.3), inset 0 0 5px hsl(142 60% 42% / 0.1);
   }
   .border-glow-red {
     box-shadow: 0 0 5px hsl(0 85% 55% / 0.3), inset 0 0 5px hsl(0 85% 55% / 0.1);
   }
   .border-glow-blue {
-    box-shadow: 0 0 5px hsl(210 90% 55% / 0.3), inset 0 0 5px hsl(210 90% 55% / 0.1);
+    box-shadow: 0 0 5px hsl(214 100% 42% / 0.4), inset 0 0 5px hsl(214 100% 42% / 0.15);
+  }
+  .border-glow-yellow {
+    box-shadow: 0 0 5px hsl(50 100% 50% / 0.4), inset 0 0 5px hsl(50 100% 50% / 0.15);
   }
   .scanline {
     background: repeating-linear-gradient(
       0deg,
       transparent,
       transparent 2px,
-      hsl(142 70% 45% / 0.03) 2px,
-      hsl(142 70% 45% / 0.03) 4px
+      hsl(214 100% 42% / 0.03) 2px,
+      hsl(214 100% 42% / 0.03) 4px
     );
   }
 
